@@ -4,61 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mine bedetider</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome Ikoner -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Link til CSS-fil -->
+    <link rel="stylesheet" href="style.css">
+
     <script src="script.js" defer></script>
-    <style>
-    /* Basis styling */
-    body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 20px;
-    }
-
-    .container {
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        max-width: 400px;
-        width: 90%;
-        margin: auto;
-    }
-
-    h1 {
-        color: #333;
-        font-size: 1.8em;
-    }
-
-    .prayer-time {
-        font-size: 1.2em;
-        margin: 10px 0;
-        display: flex;
-        justify-content: space-between;
-        padding: 10px;
-        border-bottom: 1px solid #ddd;
-    }
-
-    .prayer-time:last-child {
-        border-bottom: none;
-    }
-
-    /* Gør teksten mere responsiv */
-    @media (max-width: 600px) {
-        h1 {
-            font-size: 1.5em;
-        }
-
-        .prayer-time {
-            font-size: 1em;
-            padding: 8px;
-        }
-    }
-    </style>
 </head>
 <body>
     <div class="container">
         <h1>Mine bedetider</h1>
+		
+
 
         <!-- Dato-sektion -->
         <p id="date"><strong>Dato:</strong> Loading...</p>
@@ -66,15 +28,21 @@
 
         <!-- Næste bøn og nedtælling -->
         <h2>Næste bøn: <span id="next-prayer-name">Loading...</span></h2>
-        <h3>Tid tilbage: <span id="countdown">Loading...</span></h3>
 
-        <!-- Bedetider -->
-        <div class="prayer-time"><span>Fajr</span> <span id="fajr-time">Loading...</span></div>
-        <div class="prayer-time"><span>Suruk</span> <span id="suruk-time">Loading...</span></div>
-        <div class="prayer-time"><span>Dhuhr</span> <span id="dhuhr-time">Loading...</span></div>
-        <div class="prayer-time"><span>Asr</span> <span id="asr-time">Loading...</span></div>
-        <div class="prayer-time"><span>Maghrib</span> <span id="maghrib-time">Loading...</span></div>
-        <div class="prayer-time"><span>Isha</span> <span id="isha-time">Loading...</span></div>
+        <h3>Tid tilbage:</h3>
+        <div id="countdown-container">
+            <span id="countdown-hours">00</span>t :
+            <span id="countdown-minutes">00</span>m :
+            <span id="countdown-seconds">00</span>s
+        </div>
+
+        <!-- Bedetider med ikoner -->
+        <div class="prayer-time"><span><i class="fas fa-moon"></i> Fajr</span> <span id="fajr-time">Loading...</span></div>
+        <div class="prayer-time"><span><i class="fas fa-sun"></i> Suruk</span> <span id="suruk-time">Loading...</span></div>
+        <div class="prayer-time"><span><i class="fas fa-sun"></i> Dhuhr</span> <span id="dhuhr-time">Loading...</span></div>
+        <div class="prayer-time"><span><i class="fas fa-cloud-sun"></i> Asr</span> <span id="asr-time">Loading...</span></div>
+        <div class="prayer-time"><span><i class="fas fa-cloud-moon"></i> Maghrib</span> <span id="maghrib-time">Loading...</span></div>
+        <div class="prayer-time"><span><i class="fas fa-moon"></i> Isha</span> <span id="isha-time">Loading...</span></div>
     </div>
 </body>
 </html>
