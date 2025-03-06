@@ -1,9 +1,42 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
     let today = new Date();
-    let dateStr = today.getDate().toString().padStart(2, '0') + "-" + 
-                  (today.getMonth() + 1).toString().padStart(2, '0') + "-" + 
+    let dateStr = today.getDate().toString().padStart(2, '0') + "-" +
+                  (today.getMonth() + 1).toString().padStart(2, '0') + "-" +
                   today.getFullYear();
 
+    // **Opdater den gregorianske dato**
+    function updateDate() {
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const formattedDate = today.toLocaleDateString('da-DK', options);
+        
+        // **Sæt den i HTML**
+        document.getElementById("date").textContent = "Dato: " + formattedDate;
+    }
+
+    // **Hent Hijri-dato via API**
+    async function fetchHijriDate() {
+        try {
+            const response = await fetch(`https://api.aladhan.com/v1/gToH?date=${dateStr}`);
+            const data = await response.json();
+
+            if (data.code === 200) {
+                const hijriDate = `${data.data.hijri.weekday.en}, ${data.data.hijri.day} ${data.data.hijri.month.en} ${data.data.hijri.year} AH`;
+                
+                // **Sæt Hijri-dato i HTML**
+                document.getElementById("day").textContent = "Hijri-dato: " + hijriDate;
+            } else {
+                console.error("Fejl: Kunne ikke hente Hijri-dato.");
+            }
+        } catch (error) {
+            console.error("Fejl ved hentning af Hijri-dato:", error);
+        }
+    }
+
+    // **Opdater begge datoer**
+    updateDate();
+    await fetchHijriDate(); // Henter Hijri-dato fra API
+
+    // **Hent bedetider fra CSV**
     fetch("bedetider.csv?nocache=" + new Date().getTime())
         .then(response => response.text())
         .then(data => {
@@ -15,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            // Indsæt bedetider i HTML
+            // **Indsæt bedetider i HTML**
             document.getElementById("fajr-time").textContent = todayRow[2];
             document.getElementById("suruk-time").textContent = todayRow[3];
             document.getElementById("dhuhr-time").textContent = todayRow[4];
@@ -23,12 +56,13 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("maghrib-time").textContent = todayRow[6];
             document.getElementById("isha-time").textContent = todayRow[7];
 
-            // Start nedtælling til næste bøn
+            // **Start nedtælling til næste bøn**
             updateCountdown(todayRow);
         })
         .catch(error => console.error("Fejl ved indlæsning af data:", error));
 });
 
+// **Nedtælling til næste bøn**
 function updateCountdown(todayRow) {
     let now = new Date();
     let prayerNames = ["Fajr", "Suruk", "Dhuhr", "Asr", "Maghrib", "Isha"];
@@ -74,5 +108,3 @@ function updateCountdown(todayRow) {
 
     updateTimer();
 }
-
-
