@@ -8,21 +8,17 @@ document.addEventListener("DOMContentLoaded", async function () {
     function updateDate() {
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         const formattedDate = today.toLocaleDateString('da-DK', options);
-        
-        // **Sæt den i HTML**
         document.getElementById("date").textContent = "Dato: " + formattedDate;
     }
 
     // **Hent Hijri-dato via API**
     async function fetchHijriDate() {
         try {
-            const response = await fetch(`https://api.aladhan.com/v1/gToH?date=${dateStr}`);
+            const response = await fetch(`https://api.aladhan.com/v1/gToH?date=${dateStr}&nocache=${new Date().getTime()}`);
             const data = await response.json();
 
             if (data.code === 200) {
                 const hijriDate = `${data.data.hijri.weekday.en}, ${data.data.hijri.day} ${data.data.hijri.month.en} ${data.data.hijri.year} AH`;
-                
-                // **Sæt Hijri-dato i HTML**
                 document.getElementById("day").textContent = "Hijri-dato: " + hijriDate;
             } else {
                 console.error("Fejl: Kunne ikke hente Hijri-dato.");
@@ -34,7 +30,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // **Opdater begge datoer**
     updateDate();
-    await fetchHijriDate(); // Henter Hijri-dato fra API
+    await fetchHijriDate();
 
     // **Hent bedetider fra CSV**
     fetch("bedetider.csv?nocache=" + new Date().getTime())
@@ -84,7 +80,7 @@ function updateCountdown(todayRow) {
 
     if (!nextPrayer) {
         document.getElementById("next-prayer-name").textContent = "Ingen flere bønner i dag";
-        document.getElementById("countdown").textContent = "-";
+        document.getElementById("countdown-container").textContent = "-";
         return;
     }
 
@@ -96,8 +92,9 @@ function updateCountdown(todayRow) {
         let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         let seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-        document.getElementById("countdown").textContent =
-            `${hours}t ${minutes}m ${seconds}s`;
+        document.getElementById("countdown-hours").textContent = hours.toString().padStart(2, '0');
+        document.getElementById("countdown-minutes").textContent = minutes.toString().padStart(2, '0');
+        document.getElementById("countdown-seconds").textContent = seconds.toString().padStart(2, '0');
 
         if (diff > 0) {
             setTimeout(updateTimer, 1000);
