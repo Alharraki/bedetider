@@ -1,0 +1,121 @@
+/* 🌟 Basis styling */
+body {
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+/* 📌 Container til alt indhold */
+.container {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    max-width: 450px;
+    width: 90%;
+    margin: auto;
+}
+
+/* 🎨 Overskrifter */
+h1 {
+    color: #009688;
+    font-size: 1.8em;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+h2, h3 {
+    color: #333;
+    font-size: 1.4em;
+}
+
+/* 📝 Tekst generelt */
+p {
+    color: #444;
+    font-size: 1.1em;
+    margin: 5px 0;
+}
+
+/* 📆 Dato-styling */
+#date, #day {
+    font-weight: bold;
+    color: #555;
+    background: #e0f2f1;
+    padding: 8px;
+    border-radius: 8px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+/* 🕌 Bønnetider */
+.prayer-time {
+    font-size: 1.2em;
+    margin: 12px 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+    border-radius: 8px;
+    background: #e0f2f1;
+    border-left: 5px solid #009688;
+    transition: all 0.2s ease-in-out;
+}
+
+.prayer-time:hover {
+    background: #b2dfdb;
+    transform: scale(1.02);
+}
+
+/* ⏳ Nedtælling */
+#countdown-container {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #009688;
+    background: #e0f2f1;
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+/* 📱 Responsiv tilpasning */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 1.5em;
+    }
+
+    .prayer-time {
+        font-size: 1em;
+        padding: 10px;
+    }
+}
+/* 🌙 Dark Mode */
+.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+.dark-mode .container {
+    background: #1e1e1e;
+    box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode h1, .dark-mode h2, .dark-mode h3 {
+    color: #00e676; /* Grøn accentfarve i mørk tilstand */
+}
+
+.dark-mode .prayer-time {
+    background: #2e2e2e;
+    border-left: 5px solid #00e676;
+}
+
+.dark-mode .prayer-time:hover {
+    background: #4caf50;
+    color: white;
+}
+
+.dark-mode #countdown-container {
+    background: #333;
+    color: #00e676;
+}
