@@ -4,61 +4,65 @@ body {
     text-align: center;
     background-color: #f4f4f4;
     margin: 0;
-    padding: 20px;
+    padding: 10px; /* Mindre padding for at spare plads */
 }
 
 /* 📌 Container til alt indhold */
 .container {
     background: white;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-    max-width: 450px;
-    width: 90%;
+    padding: 15px; /* Mindre padding */
+    border-radius: 10px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px; /* Reduceret bredde */
+    width: 95%; /* Gør den lidt smallere for at spare plads */
     margin: auto;
 }
 
 /* 🎨 Overskrifter */
 h1 {
     color: #009688;
-    font-size: 1.8em;
-    font-weight: 600;
-    margin-bottom: 10px;
+    font-size: 1.6em; /* Lidt mindre */
+    font-weight: 700;
+    margin-bottom: 8px;
 }
 
 h2, h3 {
     color: #333;
-    font-size: 1.4em;
+    font-size: 1.3em; /* Lidt mindre */
+    font-weight: 600;
 }
 
 /* 📝 Tekst generelt */
 p {
     color: #444;
-    font-size: 1.1em;
-    margin: 5px 0;
+    font-size: 1.1em; /* Let reduceret */
+    font-weight: 500;
+    margin: 3px 0;
 }
 
 /* 📆 Dato-styling */
 #date, #day {
+    font-size: 1.1em; /* Lettere at få plads til */
     font-weight: bold;
     color: #555;
     background: #e0f2f1;
-    padding: 8px;
-    border-radius: 8px;
+    padding: 6px 10px;
+    border-radius: 6px;
     display: inline-block;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 /* 🕌 Bønnetider */
 .prayer-time {
-    font-size: 1.2em;
-    margin: 12px 0;
+    font-size: 1.2em; /* Lidt mindre */
+    font-weight: bold;
+    margin: 8px 0; /* Mindre afstand mellem bønnerne */
     display: flex;
     justify-content: space-between;
-    padding: 12px;
-    border-radius: 8px;
+    padding: 8px; /* Mindre padding for at spare plads */
+    border-radius: 6px;
     background: #e0f2f1;
-    border-left: 5px solid #009688;
+    border-left: 4px solid #009688;
     transition: all 0.2s ease-in-out;
 }
 
@@ -69,27 +73,37 @@ p {
 
 /* ⏳ Nedtælling */
 #countdown-container {
-    font-size: 1.4em;
+    font-size: 1.3em; /* Lidt mindre */
     font-weight: bold;
-    color: #009688;
+    color: #000; /* Gør teksten sort */
     background: #e0f2f1;
     display: inline-block;
-    padding: 10px 15px;
-    border-radius: 8px;
-    margin-top: 10px;
+    padding: 8px 12px; /* Mindre padding */
+    border-radius: 6px;
+    margin-top: 8px;
 }
 
-/* 📱 Responsiv tilpasning */
+
+/* 📱 Responsiv tilpasning - iPhone-optimeret */
 @media (max-width: 600px) {
     h1 {
-        font-size: 1.5em;
+        font-size: 1.4em;
+    }
+
+    h2, h3 {
+        font-size: 1.2em;
     }
 
     .prayer-time {
-        font-size: 1em;
-        padding: 10px;
+        font-size: 1.1em;
+        padding: 6px; /* Gør boksene mindre */
+    }
+
+    #countdown-container {
+        font-size: 1.2em;
     }
 }
+
 /* 🌙 Dark Mode */
 .dark-mode {
     background-color: #121212;
@@ -102,12 +116,12 @@ p {
 }
 
 .dark-mode h1, .dark-mode h2, .dark-mode h3 {
-    color: #00e676; /* Grøn accentfarve i mørk tilstand */
+    color: #00e676;
 }
 
 .dark-mode .prayer-time {
     background: #2e2e2e;
-    border-left: 5px solid #00e676;
+    border-left: 4px solid #00e676;
 }
 
 .dark-mode .prayer-time:hover {
