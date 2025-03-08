@@ -89,12 +89,6 @@ function updateCountdown(todayRow, forNextDay = false) {
     function updateTimer() {
         let now = new Date();
 
-        // 🔹 Hvis vi ser på næste dags bønner, opdater `now` til næste dag
-        if (forNextDay) {
-            now.setDate(now.getDate() + 1);
-            now.setHours(0, 0, 0, 0);
-        }
-
         let prayerNames = ["Fajr", "Suruk", "Dhuhr", "Asr", "Maghrib", "Isha"];
         let prayerTimes = todayRow.slice(2, 8).map(time => {
             let [hour, minute] = time.split(":").map(Number);
@@ -106,35 +100,34 @@ function updateCountdown(todayRow, forNextDay = false) {
 
         let nextPrayer = null;
         let nextPrayerName = "";
+        let activePrayerIndex = -1;
 
+        // Find den aktive bøn (den der er gået ind, men ikke ud endnu)
         for (let i = 0; i < prayerTimes.length; i++) {
-            if (now < prayerTimes[i]) {
+            if (now >= prayerTimes[i] && (i === prayerTimes.length - 1 || now < prayerTimes[i + 1])) {
+                activePrayerIndex = i; // Denne bøn er aktiv
+            }
+            if (now < prayerTimes[i] && nextPrayer === null) {
                 nextPrayer = prayerTimes[i];
                 nextPrayerName = prayerNames[i];
-                break;
             }
         }
 
         console.log("➡ Næste bøn er:", nextPrayerName);
+        console.log("🔥 Aktiv bøn:", activePrayerIndex !== -1 ? prayerNames[activePrayerIndex] : "Ingen aktiv");
 
-        // 🔹 Hvis ingen bøn findes, og vi allerede ser på næste dag → Stop
-        if (!nextPrayer && forNextDay) {
-            console.log("❌ Fejl: Næste dags bønner kunne ikke findes. Stopper her.");
-            document.getElementById("next-prayer-name").textContent = "Fejl: Ingen næste dags bøn fundet!";
-            return;
-        }
-
-        // 🔹 Hvis alle bønner for dagen er gået, skift kun til Fajr EFTER Isha
-        if (!nextPrayer) {
-            if (now > prayerTimes[5]) {  // Isha er sidste bøn (index 5)
-                console.log("🌙 Ingen flere bønner i dag. Skifter til næste dags tider...");
-                document.getElementById("next-prayer-name").textContent = "Indlæser næste dags bønner...";
-                fetchPrayerTimes(true);
-            }
-            return;
-        }
-
+        // Opdater næste bøn i UI
         document.getElementById("next-prayer-name").textContent = nextPrayerName;
+
+        // **Fjern markering fra alle bønner**
+        document.querySelectorAll(".prayer-time").forEach(el => {
+            el.classList.remove("active-prayer");
+        });
+
+        // **Fremhæv aktiv bøn**
+        if (activePrayerIndex !== -1) {
+            document.getElementById(prayerNames[activePrayerIndex].toLowerCase() + "-time").parentElement.classList.add("active-prayer");
+        }
 
         function countdown() {
             let diff = Math.max(0, nextPrayer - new Date());
@@ -159,3 +152,4 @@ function updateCountdown(todayRow, forNextDay = false) {
 
     updateTimer();
 }
+
