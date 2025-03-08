@@ -52,14 +52,14 @@ function fetchPrayerTimes(forNextDay = false) {
                      (date.getMonth() + 1).toString().padStart(2, '0') + "-" +
                      date.getFullYear();
 
-    console.log("Henter bønnetider for:", newDateStr); // ✅ Debug-log
+    console.log("Henter bønnetider for:", newDateStr);
 
     fetch("bedetider.csv?nocache=" + new Date().getTime())
         .then(response => response.text())
         .then(data => {
             let rows = data.trim().split("\n").map(row => row.replace(/\r/g, "").split(",").map(cell => cell.trim()));
 
-            console.log("Indlæst bedetider.csv:", rows); // ✅ Debug-log
+            console.log("Indlæst bedetider.csv:", rows);
 
             let todayRow = rows.find(row => row[0] === newDateStr);
 
@@ -68,7 +68,7 @@ function fetchPrayerTimes(forNextDay = false) {
                 return;
             }
 
-            console.log("Fundet bønnetider:", todayRow); // ✅ Debug-log
+            console.log("Fundet bønnetider:", todayRow);
 
             // **Indsæt bønnetider i HTML**
             document.getElementById("fajr-time").textContent = todayRow[2];
@@ -92,7 +92,7 @@ function updateCountdown(todayRow, forNextDay = false) {
         // 🔹 Hvis vi ser på næste dags bønner, opdater `now` til næste dag
         if (forNextDay) {
             now.setDate(now.getDate() + 1);
-            now.setHours(0, 0, 0, 0); // Tving midnat for at sikre korrekt sammenligning
+            now.setHours(0, 0, 0, 0);
         }
 
         let prayerNames = ["Fajr", "Suruk", "Dhuhr", "Asr", "Maghrib", "Isha"];
@@ -116,7 +116,6 @@ function updateCountdown(todayRow, forNextDay = false) {
         }
 
         console.log("➡ Næste bøn er:", nextPrayerName);
-        console.log("⏳ Tid til næste bøn:", nextPrayer);
 
         // 🔹 Hvis ingen bøn findes, og vi allerede ser på næste dag → Stop
         if (!nextPrayer && forNextDay) {
@@ -125,11 +124,13 @@ function updateCountdown(todayRow, forNextDay = false) {
             return;
         }
 
-        // 🔹 Hvis ingen bøn findes, hent næste dags bønner
-        if (!nextPrayer && !forNextDay) {
-            console.log("🌙 Ingen flere bønner i dag. Henter næste dags tider...");
-            document.getElementById("next-prayer-name").textContent = "Indlæser næste dags bønner...";
-            fetchPrayerTimes(true);
+        // 🔹 Hvis alle bønner for dagen er gået, skift kun til Fajr EFTER Isha
+        if (!nextPrayer) {
+            if (now > prayerTimes[5]) {  // Isha er sidste bøn (index 5)
+                console.log("🌙 Ingen flere bønner i dag. Skifter til næste dags tider...");
+                document.getElementById("next-prayer-name").textContent = "Indlæser næste dags bønner...";
+                fetchPrayerTimes(true);
+            }
             return;
         }
 
@@ -148,8 +149,8 @@ function updateCountdown(todayRow, forNextDay = false) {
             if (diff > 0) {
                 setTimeout(countdown, 1000);
             } else {
-                console.log("⏳ Nedtælling færdig. Henter næste dags bønner...");
-                fetchPrayerTimes(true);
+                console.log("⏳ Nedtælling færdig. Opdaterer næste bøn...");
+                updateCountdown(todayRow);
             }
         }
 
@@ -158,6 +159,3 @@ function updateCountdown(todayRow, forNextDay = false) {
 
     updateTimer();
 }
-
-
-
