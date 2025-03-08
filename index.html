@@ -19,22 +19,10 @@
 <body>
     <div class="container">
         <h1>Mine bedetider</h1>
-		
-
 
         <!-- Dato-sektion -->
         <p id="date"><strong>Dato:</strong> Loading...</p>
         <p id="day"><strong>Hijri-dato:</strong> Loading...</p>
-
-        <!-- Næste bøn og nedtælling -->
-        <h2>Næste bøn: <span id="next-prayer-name">Loading...</span></h2>
-
-        <h3>Tid tilbage:</h3>
-        <div id="countdown-container">
-            <span id="countdown-hours">00</span>t :
-            <span id="countdown-minutes">00</span>m :
-            <span id="countdown-seconds">00</span>s
-        </div>
 
         <!-- Bedetider med ikoner -->
         <div class="prayer-time"><span><i class="fas fa-moon"></i> Fajr</span> <span id="fajr-time">Loading...</span></div>
@@ -43,6 +31,18 @@
         <div class="prayer-time"><span><i class="fas fa-cloud-sun"></i> Asr</span> <span id="asr-time">Loading...</span></div>
         <div class="prayer-time"><span><i class="fas fa-cloud-moon"></i> Maghrib</span> <span id="maghrib-time">Loading...</span></div>
         <div class="prayer-time"><span><i class="fas fa-moon"></i> Isha</span> <span id="isha-time">Loading...</span></div>
+
+        <!-- Næste bøn og nedtælling (flyttet ned) -->
+        <div class="next-prayer-container">
+            <h2>Næste bøn: <span id="next-prayer-name">Loading...</span></h2>
+
+            <h3>Tid tilbage:</h3>
+            <div id="countdown-container">
+                <span id="countdown-hours">00</span>t :
+                <span id="countdown-minutes">00</span>m :
+                <span id="countdown-seconds">00</span>s
+            </div>
+        </div>
     </div>
 </body>
 </html>
