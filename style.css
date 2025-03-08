@@ -19,47 +19,53 @@ body {
 }
 
 /* 🎨 Overskrifter */
+/* 🕌 Markering af "Mine bedetider" med en kasse */
 h1 {
-    color: #009688;
-    font-size: 1.6em; /* Lidt mindre */
-    font-weight: 700;
-    margin-bottom: 8px;
+    background: #e0f2f1; /* Samme grønne farve som datoerne */
+    padding: 10px 15px; /* Giver luft omkring teksten */
+    border-radius: 8px; /* Runde hjørner */
+    display: inline-block; /* Sørger for, at boksen kun fylder teksten */
+    font-size: 1.6em; /* Bevarer størrelsen */
+    font-weight: bold;
+    color: #009688; /* Holder teksten grøn */
 }
+
 
 h2, h3 {
     color: #333;
-    font-size: 1.3em; /* Lidt mindre */
+    font-size: 1.3em;
     font-weight: 600;
 }
 
 /* 📝 Tekst generelt */
 p {
     color: #444;
-    font-size: 1.1em; /* Let reduceret */
+    font-size: 1.1em;
     font-weight: 500;
     margin: 3px 0;
 }
 
-/* 📆 Dato-styling */
+/* 📆 Dato-styling - Bevarer kassen men gør teksten tydeligere */
 #date, #day {
-    font-size: 1.1em; /* Lettere at få plads til */
-    font-weight: bold;
-    color: #555;
-    background: #e0f2f1;
-    padding: 6px 10px;
-    border-radius: 6px;
-    display: inline-block;
-    margin-bottom: 8px;
+    font-family: 'Poppins', sans-serif !important; /* Samme skrifttype */
+    font-size: 1.1em !important; /* Matcher bønnetider */
+    font-weight: bold !important; /* Gør teksten mere tydelig */
+    color: #222 !important; /* Mørkere farve for bedre kontrast */
+    /*background: #e0f2f1 !important; /* Beholder den grønne kasse */
+    padding: 6px 10px !important; /* Beholder padding */
+    border-radius: 6px !important; /* Beholder rundede hjørner */
+    display: inline-block !important; /* Sørger for korrekt visning */
+    text-align: center !important; /* Justerer teksten */
 }
 
 /* 🕌 Bønnetider */
 .prayer-time {
-    font-size: 1.2em; /* Lidt mindre */
+    font-size: 1.2em;
     font-weight: bold;
-    margin: 8px 0; /* Mindre afstand mellem bønnerne */
+    margin: 8px 0;
     display: flex;
     justify-content: space-between;
-    padding: 8px; /* Mindre padding for at spare plads */
+    padding: 8px;
     border-radius: 6px;
     background: #e0f2f1;
     border-left: 4px solid #009688;
@@ -73,16 +79,23 @@ p {
 
 /* ⏳ Nedtælling */
 #countdown-container {
-    font-size: 1.3em; /* Lidt mindre */
+    font-size: 1.3em;
     font-weight: bold;
     color: #000; /* Gør teksten sort */
     background: #e0f2f1;
     display: inline-block;
-    padding: 8px 12px; /* Mindre padding */
+    padding: 8px 12px;
     border-radius: 6px;
     margin-top: 8px;
 }
 
+/* 📌 Justering af næste bøn og nedtælling */
+.next-prayer-container {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 2px solid #009688;
+    text-align: center;
+}
 
 /* 📱 Responsiv tilpasning - iPhone-optimeret */
 @media (max-width: 600px) {
@@ -96,7 +109,7 @@ p {
 
     .prayer-time {
         font-size: 1.1em;
-        padding: 6px; /* Gør boksene mindre */
+        padding: 6px;
     }
 
     #countdown-container {
@@ -132,4 +145,12 @@ p {
 .dark-mode #countdown-container {
     background: #333;
     color: #00e676;
+}
+
+/* 🔹 Markering af aktiv bøn */
+.active-prayer {
+    background-color: #009688 !important;
+    color: white !important;
+    font-weight: bold !important;
+    transition: background 0.3s ease-in-out;
 }
