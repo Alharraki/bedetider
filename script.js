@@ -167,4 +167,17 @@ function updateCountdown(todayRow) {
 
     updateTimer();
 }
+// 📌 Funktion der tjekker klokken hvert minut
+function checkForMidnightUpdate() {
+    setInterval(() => {
+        let now = new Date();
+        if (now.getHours() === 0 && now.getMinutes() === 0 && now.getSeconds() === 0) {
+            console.log("⏰ Klokken er 00:00 - Opdaterer siden...");
+            location.reload(); // Genindlæs siden
+        }
+    }, 1000); // Tjekker hvert sekund
+}
+
+// 📌 Kald funktionen når siden indlæses
+checkForMidnightUpdate();
 
