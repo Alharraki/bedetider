@@ -85,7 +85,7 @@ function fetchPrayerTimes(forNextDay = false) {
 }
 
 // **Nedtælling til næste bøn**
-function updateCountdown(todayRow, forNextDay = false) {
+function updateCountdown(todayRow) {
     function updateTimer() {
         let now = new Date();
 
@@ -98,56 +98,71 @@ function updateCountdown(todayRow, forNextDay = false) {
         console.log("🕰️ Nuværende tid:", now);
         console.log("📅 Bønnetider:", prayerTimes);
 
+        let activePrayerIndex = -1;
+        let nextPrayerIndex = -1;
         let nextPrayer = null;
         let nextPrayerName = "";
-        let activePrayerIndex = -1;
 
-        // Find den aktive bøn (den der er gået ind, men ikke ud endnu)
+        // Find den aktive bøn og næste bøn
         for (let i = 0; i < prayerTimes.length; i++) {
             if (now >= prayerTimes[i] && (i === prayerTimes.length - 1 || now < prayerTimes[i + 1])) {
-                activePrayerIndex = i; // Denne bøn er aktiv
+                activePrayerIndex = i;
             }
-            if (now < prayerTimes[i] && nextPrayer === null) {
+            if (now < prayerTimes[i] && nextPrayerIndex === -1) {
+                nextPrayerIndex = i;
                 nextPrayer = prayerTimes[i];
                 nextPrayerName = prayerNames[i];
             }
         }
 
-        console.log("➡ Næste bøn er:", nextPrayerName);
+        // Hvis den sidste bøn (Isha) er gået ind, så er næste bøn Fajr næste dag
+        if (activePrayerIndex === prayerTimes.length - 1) {
+            nextPrayerIndex = 0;
+            let fajrTime = todayRow[2]; // Fajr tid næste dag
+            let [fajrHour, fajrMinute] = fajrTime.split(":").map(Number);
+            nextPrayer = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, fajrHour, fajrMinute, 0);
+            nextPrayerName = "Fajr";
+        }
+
         console.log("🔥 Aktiv bøn:", activePrayerIndex !== -1 ? prayerNames[activePrayerIndex] : "Ingen aktiv");
+        console.log("➡ Næste bøn er:", nextPrayerName);
 
         // Opdater næste bøn i UI
         document.getElementById("next-prayer-name").textContent = nextPrayerName;
 
-        // **Fjern markering fra alle bønner**
+        // Fremhæv aktiv bøn
         document.querySelectorAll(".prayer-time").forEach(el => {
             el.classList.remove("active-prayer");
         });
 
-        // **Fremhæv aktiv bøn**
         if (activePrayerIndex !== -1) {
             document.getElementById(prayerNames[activePrayerIndex].toLowerCase() + "-time").parentElement.classList.add("active-prayer");
         }
 
-        function countdown() {
-            let diff = Math.max(0, nextPrayer - new Date());
-            let hours = Math.floor(diff / (1000 * 60 * 60));
-            let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            let seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        function countdown(targetTime) {
+            function updateCountdownTimer() {
+                let diff = Math.max(0, targetTime - new Date());
+                let hours = Math.floor(diff / (1000 * 60 * 60));
+                let minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                let seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-            document.getElementById("countdown-hours").textContent = hours.toString().padStart(2, '0');
-            document.getElementById("countdown-minutes").textContent = minutes.toString().padStart(2, '0');
-            document.getElementById("countdown-seconds").textContent = seconds.toString().padStart(2, '0');
+                document.getElementById("countdown-hours").textContent = hours.toString().padStart(2, '0');
+                document.getElementById("countdown-minutes").textContent = minutes.toString().padStart(2, '0');
+                document.getElementById("countdown-seconds").textContent = seconds.toString().padStart(2, '0');
 
-            if (diff > 0) {
-                setTimeout(countdown, 1000);
-            } else {
-                console.log("⏳ Nedtælling færdig. Opdaterer næste bøn...");
-                updateCountdown(todayRow);
+                if (diff > 0) {
+                    setTimeout(updateCountdownTimer, 1000);
+                } else {
+                    console.log("⏳ Nedtælling færdig. Opdaterer til næste bøn...");
+                    updateCountdown(todayRow);
+                }
             }
+
+            updateCountdownTimer();
         }
 
-        countdown();
+        // Start nedtælling til næste bøn
+        countdown(nextPrayer);
     }
 
     updateTimer();
